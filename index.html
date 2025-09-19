@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Sky Cakes</title>
+  <style>
+    body {
+      background-color: #ec0978;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .quiz-container {
+      max-width: 600px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    .question {
+      display: none;
+    }
+    .question.active {
+      display: block;
+    }
+    .question h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      background: rgba(255,255,255,0.15);
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    label:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    button {
+      background: #fff;
+      color: #ec0978;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    button:hover {
+      background: #ec0978;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+    #result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 15px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    #redirect-msg {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #ffeaf4;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Quiz Sky Cakes 🍰</h1>
+
+    <form id="quizForm">
+      <div class="question active" id="q1">
+        <h2>1. Quando você pensa em fazer bolos, o que mais te motiva?</h2>
+        <label><input type="radio" name="q1" value="vender"> Quero aprender para vender e transformar em renda.</label>
+        <label><input type="radio" name="q1" value="familia"> Faço mais para encantar a família e amigos.</label>
+        <label><input type="radio" name="q1" value="aprimorar"> Gosto de aprender coisas novas e me aperfeiçoar sempre.</label>
+      </div>
+
+      <div class="question" id="q2">
+        <h2>2. Na sua opinião, qual é o maior desafio na hora de fazer um bolo perfeito?</h2>
+        <label><input type="radio" name="q2" value="massa"> Massa fofinha e saborosa.</label>
+        <label><input type="radio" name="q2" value="recheio"> Recheios equilibrados.</label>
+        <label><input type="radio" name="q2" value="acabamento"> Acabamento bonito e profissional.</label>
+        <label><input type="radio" name="q2" value="organizacao"> Organização e prática na cozinha.</label>
+      </div>
+
+      <div class="question" id="q3">
+        <h2>3. Você já imaginou transformar sua paixão por confeitaria em renda extra ou até mesmo em um negócio próprio?</h2>
+        <label><input type="radio" name="q3" value="sim"> Sim, já penso nisso e quero começar logo.</label>
+        <label><input type="radio" name="q3" value="curiosidade"> Tenho curiosidade, mas ainda não sei por onde começar.</label>
+        <label><input type="radio" name="q3" value="hobby"> Por enquanto, é só um hobby para a família e amigos.</label>
+      </div>
+
+      <div class="question" id="q4">
+        <h2>4. Se eu pudesse te mostrar técnicas práticas e testadas que deixam qualquer bolo com aparência profissional e sabor irresistível, você gostaria de conhecer?</h2>
+        <label><input type="radio" name="q4" value="quero"> Quero muito aprender!</label>
+        <label><input type="radio" name="q4" value="organizar"> Sim, mas ainda preciso me organizar.</label>
+        <label><input type="radio" name="q4" value="talvez"> Talvez mais pra frente.</label>
+      </div>
+
+      <button type="submit">Enviar Respostas</button>
+      <p id="redirect-msg">⚠️ Ao finalizar, você será redirecionado para o WhatsApp.</p>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const questions = document.querySelectorAll(".question");
+    const form = document.getElementById("quizForm");
+    const resultDiv = document.getElementById("result");
+
+    questions.forEach((q, index) => {
+      q.addEventListener("change", () => {
+        if (index < questions.length - 1) {
+          questions[index].classList.remove("active");
+          questions[index + 1].classList.add("active");
+        } else {
+          form.querySelector("button").style.display = "block";
+          document.getElementById("redirect-msg").style.display = "block";
+        }
+      });
+    });
+
+    form.querySelector("button").style.display = "none";
+    document.getElementById("redirect-msg").style.display = "none";
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const q1 = form.q1.value;
+
+      let message = "Obrigado por responder ao quiz! 🎉<br><br>";
+      if(q1 === "vender"){
+        message += "Você tem perfil de empreendedora! Seu foco é transformar confeitaria em renda. Nosso curso vai te ajudar a dar esse salto.";
+      } else if(q1 === "familia"){
+        message += "Você ama encantar sua família e amigos. Com algumas técnicas, seus bolos vão ficar ainda mais incríveis!";
+      } else {
+        message += "Você gosta de aprender e se aprimorar. Nosso curso vai ser o próximo passo perfeito para evoluir.";
+      }
+
+      message += "<br><br>👉 Você será redirecionado automaticamente para o WhatsApp para saber mais sobre o curso!";
+
+      form.style.display = "none";
+      resultDiv.innerHTML = message;
+      resultDiv.style.display = "block";
+
+      setTimeout(() => {
+        window.location.href = "https://wa.me/5527992263946";
+      }, 8000);
+    });
+  </script>
+</body>
+</html>
